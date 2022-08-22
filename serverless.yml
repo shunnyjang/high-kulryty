@@ -1,0 +1,12 @@
+provider:
+  environment:
+    USER_TABLE_NAME: ${self:cumstom.usersTable.name}
+  iamRoleStatements: ${file(iam/usersTableIAM.yml)}
+resources:
+  Resources:
+    usersTable: ${file(resources/usersTable.yml):usersTable}
+
+custom:
+  usersTable:
+    name: ${self:provider.stabe}-users
+    arn: !GetAtt usersTable.Arn
