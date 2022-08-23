@@ -28,3 +28,5 @@ export const config: Options = {
 
   logger: logger.log.bind(logger),
 };
+
+export default config;

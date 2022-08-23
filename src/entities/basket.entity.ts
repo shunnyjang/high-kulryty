@@ -21,7 +21,8 @@ export class Basket {
   @Property()
   thumbnail: string;
 
-  @ManyToMany(() => Product, (product) => product.name, {
+  @ManyToMany({
+    entity: 'Product',
     hidden: false,
     nullable: true,
   })

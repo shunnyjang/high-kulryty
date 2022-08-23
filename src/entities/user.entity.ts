@@ -8,6 +8,8 @@ import {
 } from '@mikro-orm/core';
 import crypto from 'crypto';
 import { Basket } from './basket.entity';
+import { Connection } from './connection.entity';
+import { Favor } from './favor.entity';
 
 @Entity()
 export class User {
@@ -25,19 +27,17 @@ export class User {
 
   @ManyToMany({
     entity: () => User,
-    inversedBy: (u) => u.followed,
-    owner: true,
-    pivotTable: 'user_to_follower',
-    joinColumn: 'follower',
-    inverseJoinColumn: 'following',
-    hidden: true,
+    pivotEntity: () => Connection,
   })
-  followers = new Collection<User>(this);
+  following = new Collection<User>(this);
 
-  @ManyToMany(() => User, (u) => u.followers, { hidden: true })
+  @ManyToMany(() => User, (u) => u.following, { hidden: true })
   followed = new Collection<User>(this);
 
-  @OneToMany(() => Basket, (basket) => basket.id)
+  @ManyToMany({
+    entity: () => Basket,
+    pivotEntity: () => Favor,
+  })
   likes = new Collection<Basket>(this);
 
   @Property({ onCreate: () => new Date() })
