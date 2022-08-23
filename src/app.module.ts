@@ -10,6 +10,7 @@ import { configuration } from './config/configuration';
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import { MikroORM } from '@mikro-orm/core';
 import { AuthModule } from './auth/auth.module';
+import { StarModule } from './star/star.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    StarModule,
   ],
   controllers: [],
   providers: [],

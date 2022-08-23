@@ -219,6 +219,16 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "type": {
+          "name": "type",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'슈퍼유저'",
+          "mappedType": "string"
+        },
         "title": {
           "name": "title",
           "type": "varchar(255)",
