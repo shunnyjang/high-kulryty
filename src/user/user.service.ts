@@ -31,10 +31,19 @@ export class UserService {
     this.userRepository.nativeUpdate({ id: id }, { token: hashedRefreshToken });
   }
 
+  async getFollowingUsers(userId: string) {
+    const user = await this.userRepository.findOne(
+      { id: userId },
+      { populate: ['following'] },
+    );
+    const following = user.following;
+    return { following: following };
+  }
+
   async followUser(followingUserId, followedUserId): Promise<any> {
     const followingUser: User = await this.userRepository.findOne(
       { id: followingUserId },
-      { populate: ['following', 'follower'] },
+      { populate: ['following'] },
     );
     const followedUser: User = await this.userRepository.findOne({
       id: followedUserId,
@@ -44,7 +53,6 @@ export class UserService {
     await this.userRepository.flush();
 
     return {
-      followers: followingUser.follower,
       following: followingUser.following,
     };
   }
@@ -52,7 +60,7 @@ export class UserService {
   async unfollowUser(unfollowingUserId: string, unfollowedUserId: string) {
     const unfollowingUser: User = await this.userRepository.findOne(
       { id: unfollowingUserId },
-      { populate: ['following', 'follower'] },
+      { populate: ['following'] },
     );
     const unfollowedUser: User = await this.userRepository.findOne({
       id: unfollowedUserId,
@@ -61,7 +69,6 @@ export class UserService {
     unfollowingUser.following.remove(unfollowedUser);
     await this.userRepository.flush();
     return {
-      followers: unfollowingUser.follower,
       following: unfollowingUser.following,
     };
   }

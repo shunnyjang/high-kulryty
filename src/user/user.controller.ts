@@ -26,6 +26,11 @@ export class UserController {
     return this.userService.getUserProfileById(req.user.id);
   }
 
+  @Get('/follow')
+  getFollowingUsers(@Req() req): Promise<any> {
+    return this.userService.getFollowingUsers(req.body.userId);
+  }
+
   // @UseGuards(JwtAuthGuard)
   @Post('/follow')
   followUser(@Req() req): Promise<any> {
