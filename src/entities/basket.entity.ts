@@ -34,7 +34,8 @@ export class Basket {
   @ManyToMany({ entity: () => Tag, nullable: true })
   tags = new Collection<Tag>(this);
 
-  constructor(user: User) {
+  constructor(user: User, thumbnail: string) {
     this.user = user;
+    this.thumbnail = thumbnail;
   }
 }
