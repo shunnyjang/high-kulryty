@@ -143,6 +143,16 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "rank": {
+          "name": "rank",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'BASIC'",
+          "mappedType": "string"
+        },
         "token": {
           "name": "token",
           "type": "varchar(255)",

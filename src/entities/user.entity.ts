@@ -5,6 +5,7 @@ import {
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
+import { UserRank } from '../user/user-rank.enum';
 import { Basket } from './basket.entity';
 import { Favor } from './favor.entity';
 
@@ -21,6 +22,12 @@ export class User {
 
   @Property()
   profile: string;
+
+  @Property({
+    type: 'string',
+    default: UserRank.BASIC,
+  })
+  rank: UserRank;
 
   @Property({ nullable: true })
   token: string;

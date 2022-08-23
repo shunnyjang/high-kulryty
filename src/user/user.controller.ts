@@ -1,4 +1,12 @@
-import { Controller, Delete, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/entities';
 import { UserService } from './user.service';
@@ -33,5 +41,10 @@ export class UserController {
       req.body.userId,
       req.body.unfollowedUserId,
     );
+  }
+
+  @Patch('/lover')
+  updateLoverRank(@Req() req): Promise<User> {
+    return this.userService.updateLoverRank(req.body.userId, req.body.rank);
   }
 }

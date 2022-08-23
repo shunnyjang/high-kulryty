@@ -1,8 +1,10 @@
+import { wrap } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from 'src/auth/dto';
 import { User } from 'src/entities';
+import { UserRank } from './user-rank.enum';
 
 @Injectable()
 export class UserService {
@@ -62,5 +64,12 @@ export class UserService {
       followers: unfollowingUser.follower,
       following: unfollowingUser.following,
     };
+  }
+
+  async updateLoverRank(userId: string, rank: UserRank): Promise<User> {
+    const user = await this.userRepository.findOne({ id: userId });
+    wrap(user).assign({ rank: rank });
+    await this.userRepository.flush();
+    return user;
   }
 }
