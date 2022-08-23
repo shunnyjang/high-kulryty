@@ -6,7 +6,6 @@ import {
   Property,
 } from '@mikro-orm/core';
 import { Basket } from './basket.entity';
-import { Connection } from './connection.entity';
 import { Favor } from './favor.entity';
 
 @Entity()
@@ -28,12 +27,17 @@ export class User {
 
   @ManyToMany({
     entity: () => User,
-    pivotEntity: () => Connection,
+    inversedBy: (u) => u.follower,
+    owner: true,
+    pivotTable: 'user_following',
+    joinColumn: 'following',
+    inverseJoinColumn: 'following',
+    hidden: true,
   })
   following = new Collection<User>(this);
 
   @ManyToMany(() => User, (u) => u.following, { hidden: true })
-  followed = new Collection<User>(this);
+  follower = new Collection<User>(this);
 
   @ManyToMany({
     entity: () => Basket,

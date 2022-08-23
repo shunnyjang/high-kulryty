@@ -1,4 +1,4 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { User } from 'src/entities';
 import { UserService } from './user.service';
@@ -16,5 +16,22 @@ export class UserController {
   @Get('/profile')
   getUserProfile(@Req() req): Promise<User> {
     return this.userService.getUserProfileById(req.user.id);
+  }
+
+  // @UseGuards(JwtAuthGuard)
+  @Post('/follow')
+  followUser(@Req() req): Promise<any> {
+    return this.userService.followUser(
+      req.body.userId,
+      req.body.followedUserrId,
+    );
+  }
+
+  @Delete('/follow')
+  unfollowUser(@Req() req): Promise<any> {
+    return this.userService.unfollowUser(
+      req.body.userId,
+      req.body.unfollowedUserId,
+    );
   }
 }

@@ -16,11 +16,7 @@ export class UserService {
   }
 
   async getUserProfileById(id: string): Promise<User> {
-    try {
-      return this.userRepository.findOneOrFail({ id: id });
-    } catch (error) {
-      throw new UnauthorizedException(`가입하지 않은 회원입니다.`);
-    }
+    return this.userRepository.findOneOrFail({ id: id });
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -31,5 +27,40 @@ export class UserService {
 
   async setRefreshToken(id: string, hashedRefreshToken: string) {
     this.userRepository.nativeUpdate({ id: id }, { token: hashedRefreshToken });
+  }
+
+  async followUser(followingUserId, followedUserId): Promise<any> {
+    const followingUser: User = await this.userRepository.findOne(
+      { id: followingUserId },
+      { populate: ['following', 'follower'] },
+    );
+    const followedUser: User = await this.userRepository.findOne({
+      id: followedUserId,
+    });
+
+    followedUser.follower.add(followingUser);
+    await this.userRepository.flush();
+
+    return {
+      followers: followingUser.follower,
+      following: followingUser.following,
+    };
+  }
+
+  async unfollowUser(unfollowingUserId: string, unfollowedUserId: string) {
+    const unfollowingUser: User = await this.userRepository.findOne(
+      { id: unfollowingUserId },
+      { populate: ['following', 'follower'] },
+    );
+    const unfollowedUser: User = await this.userRepository.findOne({
+      id: unfollowedUserId,
+    });
+
+    unfollowingUser.following.remove(unfollowedUser);
+    await this.userRepository.flush();
+    return {
+      followers: unfollowingUser.follower,
+      following: unfollowingUser.following,
+    };
   }
 }
