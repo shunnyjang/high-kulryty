@@ -2,11 +2,9 @@ import {
   Collection,
   Entity,
   ManyToMany,
-  OneToMany,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
-import crypto from 'crypto';
 import { Basket } from './basket.entity';
 import { Connection } from './connection.entity';
 import { Favor } from './favor.entity';
@@ -20,9 +18,12 @@ export class User {
   password: string;
 
   @Property()
-  profile: string;
+  name: string;
 
   @Property()
+  profile: string;
+
+  @Property({ nullable: true })
   token: string;
 
   @ManyToMany({
@@ -43,12 +44,16 @@ export class User {
   @Property({ onCreate: () => new Date() })
   date_joined: Date;
 
-  @Property({ onUpdate: () => new Date() })
+  @Property({
+    onCreate: () => new Date(),
+    onUpdate: () => new Date(),
+  })
   updated_at: Date;
 
-  constructor(id: string, password: string) {
+  constructor(id: string, password: string, name: string) {
     this.id = id;
-    this.password = crypto.createHmac('sha256', password).digest('hex');
+    this.password = password;
+    this.name = name;
     this.profile = this.generateProfileEmoji();
   }
 

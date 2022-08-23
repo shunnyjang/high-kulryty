@@ -12,6 +12,7 @@ export const config: Options = {
   port: Number(process.env.DB_PORT),
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
+  clientUrl: process.env.DB_URL,
 
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
