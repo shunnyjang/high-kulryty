@@ -11,6 +11,8 @@ import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import { MikroORM } from '@mikro-orm/core';
 import { AuthModule } from './auth/auth.module';
 import { StarModule } from './star/star.module';
+import { ProductModule } from './product/product.module';
+import { BasketModule } from './basket/basket.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { StarModule } from './star/star.module';
     UserModule,
     AuthModule,
     StarModule,
+    ProductModule,
+    BasketModule,
   ],
   controllers: [],
   providers: [],
