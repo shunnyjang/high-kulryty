@@ -15,6 +15,10 @@ export class ProductService {
     return this.productRepository.findAll();
   }
 
+  async getProductById(productId: number): Promise<Product> {
+    return this.productRepository.findOne({ id: productId });
+  }
+
   async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     const product = this.productRepository.create(createProductDto);
     await this.productRepository.persistAndFlush(product);
