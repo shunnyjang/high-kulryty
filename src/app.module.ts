@@ -9,18 +9,21 @@ import { UserModule } from './user/user.module';
 import { configuration } from './config/configuration';
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import { MikroORM } from '@mikro-orm/core';
-// import { configValidationSchema } from './validation';
+import { AuthModule } from './auth/auth.module';
+import { StarModule } from './star/star.module';
 
 @Module({
   imports: [
     MikroOrmModule.forRoot(),
     ConfigModule.forRoot({
-      envFilePath: `${process.cwd()}/config/env/${process.env.NODE_ENV}.env`,
+      envFilePath: `${process.cwd()}/.${process.env.NODE_ENV}.env`,
       load: [configuration],
       isGlobal: true,
       // validationSchema: configValidationSchema,
     }),
     UserModule,
+    AuthModule,
+    StarModule,
   ],
   controllers: [],
   providers: [],

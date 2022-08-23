@@ -2,13 +2,11 @@ import {
   Collection,
   Entity,
   ManyToMany,
-  OneToMany,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
-import crypto from 'crypto';
+import { UserRank } from '../user/user-rank.enum';
 import { Basket } from './basket.entity';
-import { Connection } from './connection.entity';
 import { Favor } from './favor.entity';
 
 @Entity()
@@ -20,19 +18,33 @@ export class User {
   password: string;
 
   @Property()
-  profile: string;
+  name: string;
 
   @Property()
+  profile: string;
+
+  @Property({
+    type: 'string',
+    default: UserRank.BASIC,
+  })
+  rank: UserRank;
+
+  @Property({ nullable: true })
   token: string;
 
   @ManyToMany({
     entity: () => User,
-    pivotEntity: () => Connection,
+    inversedBy: (u) => u.follower,
+    owner: true,
+    pivotTable: 'user_following',
+    joinColumn: 'following',
+    inverseJoinColumn: 'following',
+    hidden: true,
   })
   following = new Collection<User>(this);
 
   @ManyToMany(() => User, (u) => u.following, { hidden: true })
-  followed = new Collection<User>(this);
+  follower = new Collection<User>(this);
 
   @ManyToMany({
     entity: () => Basket,
@@ -43,12 +55,16 @@ export class User {
   @Property({ onCreate: () => new Date() })
   date_joined: Date;
 
-  @Property({ onUpdate: () => new Date() })
+  @Property({
+    onCreate: () => new Date(),
+    onUpdate: () => new Date(),
+  })
   updated_at: Date;
 
-  constructor(id: string, password: string) {
+  constructor(id: string, password: string, name: string) {
     this.id = id;
-    this.password = crypto.createHmac('sha256', password).digest('hex');
+    this.password = password;
+    this.name = name;
     this.profile = this.generateProfileEmoji();
   }
 

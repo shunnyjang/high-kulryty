@@ -125,6 +125,15 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
         "profile": {
           "name": "profile",
           "type": "varchar(255)",
@@ -134,13 +143,23 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "rank": {
+          "name": "rank",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'BASIC'",
+          "mappedType": "string"
+        },
         "token": {
           "name": "token",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "mappedType": "string"
         },
         "date_joined": {
@@ -200,6 +219,16 @@
           "nullable": false,
           "mappedType": "string"
         },
+        "type": {
+          "name": "type",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "'슈퍼유저'",
+          "mappedType": "string"
+        },
         "title": {
           "name": "title",
           "type": "varchar(255)",
@@ -241,79 +270,6 @@
             "user_id"
           ],
           "localTableName": "public.star_user",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.user",
-          "updateRule": "cascade"
-        }
-      }
-    },
-    {
-      "columns": {
-        "follower_id": {
-          "name": "follower_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "followed_id": {
-          "name": "followed_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "mappedType": "string"
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamptz(0)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "length": 6,
-          "mappedType": "datetime"
-        }
-      },
-      "name": "connection",
-      "schema": "public",
-      "indexes": [
-        {
-          "keyName": "connection_pkey",
-          "columnNames": [
-            "follower_id",
-            "followed_id"
-          ],
-          "composite": true,
-          "primary": true,
-          "unique": true
-        }
-      ],
-      "checks": [],
-      "foreignKeys": {
-        "connection_follower_id_foreign": {
-          "constraintName": "connection_follower_id_foreign",
-          "columnNames": [
-            "follower_id"
-          ],
-          "localTableName": "public.connection",
-          "referencedColumnNames": [
-            "id"
-          ],
-          "referencedTableName": "public.user",
-          "updateRule": "cascade"
-        },
-        "connection_followed_id_foreign": {
-          "constraintName": "connection_followed_id_foreign",
-          "columnNames": [
-            "followed_id"
-          ],
-          "localTableName": "public.connection",
           "referencedColumnNames": [
             "id"
           ],
@@ -589,6 +545,71 @@
             "id"
           ],
           "referencedTableName": "public.product",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      }
+    },
+    {
+      "columns": {
+        "user_1_id": {
+          "name": "user_1_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        },
+        "user_2_id": {
+          "name": "user_2_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "string"
+        }
+      },
+      "name": "user_following",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "user_following_pkey",
+          "columnNames": [
+            "user_1_id",
+            "user_2_id"
+          ],
+          "composite": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "user_following_user_1_id_foreign": {
+          "constraintName": "user_following_user_1_id_foreign",
+          "columnNames": [
+            "user_1_id"
+          ],
+          "localTableName": "public.user_following",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "user_following_user_2_id_foreign": {
+          "constraintName": "user_following_user_2_id_foreign",
+          "columnNames": [
+            "user_2_id"
+          ],
+          "localTableName": "public.user_following",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.user",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         }

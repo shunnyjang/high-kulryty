@@ -1,4 +1,5 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { UserType } from '../user/user-type.enum';
 import { User } from './user.entity';
 
 @Entity()
@@ -8,9 +9,15 @@ export class StarUser {
 
   @ManyToOne({
     serializer: (user) => user.id,
-    serializedName: 'userName',
+    serializedName: 'userId',
   })
   user: User;
+
+  @Property({
+    type: 'string',
+    default: UserType.USER,
+  })
+  type: UserType;
 
   @Property()
   title: string;
