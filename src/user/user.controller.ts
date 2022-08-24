@@ -20,10 +20,9 @@ export class UserController {
     return this.userService.getAllUsers();
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('/profile')
   getUserProfile(@Req() req): Promise<User> {
-    return this.userService.getUserProfileById(req.user.id);
+    return this.userService.getUserProfileById(req.query.id);
   }
 
   @Get('/follow')
