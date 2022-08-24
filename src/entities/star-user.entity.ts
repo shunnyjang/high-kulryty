@@ -8,8 +8,7 @@ export class StarUser {
   id: string;
 
   @ManyToOne({
-    serializer: (user) => user.id,
-    serializedName: 'userId',
+    entity: () => User,
   })
   user: User;
 

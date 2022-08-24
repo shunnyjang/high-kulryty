@@ -2,6 +2,7 @@ import {
   Collection,
   Entity,
   ManyToMany,
+  OneToMany,
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
@@ -51,6 +52,13 @@ export class User {
     pivotEntity: () => Favor,
   })
   likes = new Collection<Basket>(this);
+
+  @OneToMany({
+    entity: () => Basket,
+    mappedBy: 'user',
+    hidden: true,
+  })
+  baskets = new Collection<Basket>(this);
 
   @Property({ onCreate: () => new Date() })
   date_joined: Date;
