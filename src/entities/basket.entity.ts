@@ -15,11 +15,14 @@ export class Basket {
   @PrimaryKey({ autoincrement: true })
   id: number;
 
-  @ManyToOne(() => User)
-  user: User;
-
   @Property()
   thumbnail: string;
+
+  @ManyToOne({
+    entity: () => User,
+    inversedBy: 'baskets',
+  })
+  user: User;
 
   @ManyToMany({
     entity: 'Product',

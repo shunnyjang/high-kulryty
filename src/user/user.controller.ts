@@ -28,7 +28,7 @@ export class UserController {
 
   @Get('/follow')
   getFollowingUsers(@Req() req): Promise<any> {
-    return this.userService.getFollowingUsers(req.body.userId);
+    return this.userService.getFollowingUsers(req.query.userId);
   }
 
   // @UseGuards(JwtAuthGuard)
